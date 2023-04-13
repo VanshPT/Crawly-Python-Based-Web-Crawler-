@@ -23,7 +23,6 @@ class Crawly:
         self.boot()
         self.crawl_page('First Crawly', Crawly.base_url)
 
-    # Creates directory and files for project on first run and starts the Crawly
     @staticmethod
     def boot():
         create_project_dir(Crawly.project_name)
@@ -31,7 +30,6 @@ class Crawly:
         Crawly.queue = file_to_set(Crawly.queue_file)
         Crawly.crawled = file_to_set(Crawly.crawled_file)
 
-    # Updates user display, fills queue and updates files
     @staticmethod
     def crawl_page(thread_name, page_url):
         if page_url not in Crawly.crawled:
@@ -42,7 +40,6 @@ class Crawly:
             Crawly.crawled.add(page_url)
             Crawly.update_files()
 
-    # Converts raw response data into readable information and checks for proper html formatting
     @staticmethod
     def gather_links(page_url):
         html_string = ''
@@ -58,7 +55,6 @@ class Crawly:
             return set()
         return finder.page_links()
 
-    # Saves queue data to project files
     @staticmethod
     def add_links_to_queue(links):
         for url in links:

@@ -4,9 +4,7 @@ from Crawly import Crawly
 from domain import *
 from general import *
 
-# PROJECT_NAME = 'viper-seo'
 PROJECT_NAME=input("Enter the project name - ")
-# HOMEPAGE = 'http://viper-seo.com/'
 HOMEPAGE=input("Enter the base url - ")
 DOMAIN_NAME = get_domain_name(HOMEPAGE)
 QUEUE_FILE = PROJECT_NAME + '/queue.txt'
@@ -16,15 +14,12 @@ queue = Queue()
 Crawly(PROJECT_NAME, HOMEPAGE, DOMAIN_NAME)
 
 
-# Create worker threads (will die when main exits)
 def create_workers():
     for _ in range(NUMBER_OF_THREADS):
         t = threading.Thread(target=work)
         t.daemon = True
         t.start()
 
-
-# Do the next job in the queue
 def work():
     while True:
         url = queue.get()
@@ -32,7 +27,6 @@ def work():
         queue.task_done()
 
 
-# Each queued link is a new job
 def create_jobs():
     for link in file_to_set(QUEUE_FILE):
         queue.put(link)
@@ -40,7 +34,6 @@ def create_jobs():
     crawl()
 
 
-# Check if there are items in the queue, if so crawl them
 def crawl():
     queued_links = file_to_set(QUEUE_FILE)
     if len(queued_links) > 0:
